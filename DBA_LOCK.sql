@@ -1,4 +1,7 @@
 -- desenvolvida pelos dba victor hugo version 1.0 - 29/08/2024
+-- time está em ms, 5 segundos = 5000, 1 minuto = 300000
+-- job serve para apenas registrar os resultados em uma tabela específica.
+-- requisito: alterar a base DBA para a base que deseja criar a procedure- > dê CTrl + F neste trecho para alterar: DBA..
 create or alter procedure dba_lock ( @time int = 300000, @job bit = 0)
 as            
 IF OBJECT_ID('TEMPDB..#CTE') IS NOT NULL DROP TABLE #CTE            
@@ -101,7 +104,7 @@ SELECT GETDATE() AS DATA_EVENTO, ES.SESSION_ID,
  AND ISNULL(ER.BLOCKING_SESSION_ID, 0) != 0            
              
               
- -- TRATAMENTO DE DADOS PARA A SA�DA FINAL            
+ -- TRATAMENTO DE DADOS PARA A SAÍDA FINAL            
  SELECT RANK() OVER (PARTITION BY ISNULL(B.SESSION_ID,X.BLOCKING_SESSION_ID) ORDER BY ORDEM DESC) RANK, X.ORDEM,ISNULL(B.SESSION_ID,0) SESSION_RAIZ,X.BLOCKING_SESSION_ID ,X.SESSION_ID             
  INTO #RESULT FROM (SELECT DENSE_RANK() OVER (ORDER BY WAIT_TIME DESC) AS ORDEM, * FROM #CTE2) AS X            
  LEFT JOIN #CTE B ON B.SESSION_ID = X.BLOCKING_SESSION_ID            
