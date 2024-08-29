@@ -1,6 +1,6 @@
 -- desenvolvida pelos dba victor hugo version 1.0 - 29/08/2024
 -- time está em ms, 5 segundos = 5000, 1 minuto = 300000
--- job serve para apenas registrar os resultados em uma tabela específica.
+-- job serve para apenas registrar os resultados em uma tabela específica chamada dba_block.
 -- requisito: alterar a base DBA para a base que deseja criar a procedure- > dê CTrl + F neste trecho para alterar: DBA..
 create or alter procedure dba_lock ( @time int = 300000, @job bit = 0)
 as            
